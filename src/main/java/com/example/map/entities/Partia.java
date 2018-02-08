@@ -13,6 +13,16 @@ public class Partia {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	String name;
+	String type;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public Partia() {}
 	public Long getId() {
 		return id;

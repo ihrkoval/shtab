@@ -11,22 +11,23 @@
      
     
 </head>    
- <body> 
+ <div>
  <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        width: 100%;
-        height: 90vh;
+        /*width: 100%;*/
+        height: 100vh;
       }
-       Optional: Makes the sample page fill the window.
+
       html, body {
-        height: 85%;
+        height: 100%;
         margin: 0;
         padding: 0;
-      } 
+      }
     </style>
-<div id="map"></div>
+ <div class="container-fluid">
+<div id="map" class="panel col-sm-10"></div>
     						<script>
     						
     						var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -144,5 +145,64 @@
     <script type="text/javascript">
     </script>
            
-        </div>
-        </body>  
+
+
+ <div class="col-sm-2 sidenav" id="ads">
+	 <div class="well">
+		 <div class="panel panel-info">
+			 <div class="panel-heading">Режим перегляду</div>
+			 <div class="panel-body"><button type="button" class="btn btn-primary">Мапа</button>
+				 <button type="button" class="btn btn-success">Таблиця</button>
+			 </div>
+		 </div>
+	 </div>
+
+	 <div class="well">
+
+		 <div class="panel panel-info">
+			 <div class="panel-heading">По нас. пункту:</div>
+			 <div class="panel-body">
+
+				 <form role="form" enctype="multipart/form-data" class="form-signin" action="./getResultsByCity" method="post">
+					 <p><input id = "nasp" type="text" class="form-control" placeholder="Нас.Пункт" name = "nasp" aria-label="nasp" aria-describedby="basic-addon1">
+					 </p>
+
+				 </form>
+
+
+				 <table class="table table-striped">
+					 1250 / 480
+					 <thead>
+
+					 </thead>
+					 <tbody>
+					 <tr>
+						 <th scope="row">Хлань</th>
+						 <td>56</td>
+						 <td>12%</td>
+
+					 </tr>
+					 <tr>
+						 <th scope="row">Пузань</th>
+						 <td>32</td>
+						 <td>9%</td>
+
+					 </tr>
+					 <tr>
+						 <th scope="row">Хабарь</th>
+						 <td>60</td>
+						 <td>8%</td>
+
+					 </tr>
+					 </tbody>
+				 </table>
+
+
+			 </div>
+		 </div>
+	 </div>
+ </div>
+</div>
+ </div>
+        </body>
+</html>

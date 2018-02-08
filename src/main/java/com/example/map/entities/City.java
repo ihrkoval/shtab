@@ -1,5 +1,8 @@
 package com.example.map.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -15,6 +18,7 @@ public class City {
 	int rayon;
 	int oblast;
 
+	@JsonIgnore
 	@OneToMany(mappedBy= "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	List<Place> places;
 	

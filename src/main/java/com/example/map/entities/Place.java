@@ -1,8 +1,11 @@
 package com.example.map.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Place {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,8 +15,8 @@ public class Place {
 	float lat;
 	@ManyToOne(fetch = FetchType.LAZY)
 	City city;
-	int kolvoIzberat;
-	int yavka;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -44,18 +47,7 @@ public class Place {
 	public void setCity(City city) {
 		this.city = city;
 	}
-	public int getKolvoIzberat() {
-		return kolvoIzberat;
-	}
-	public void setKolvoIzberat(int kolvoIzberat) {
-		this.kolvoIzberat = kolvoIzberat;
-	}
-	public int getYavka() {
-		return yavka;
-	}
-	public void setYavka(int yavka) {
-		this.yavka = yavka;
-	}
+
 	
 	
 	

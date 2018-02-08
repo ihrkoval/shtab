@@ -12,9 +12,9 @@
 <body>
  <div class="well">
 <div class="container-fluid">
- 
+
  <div class="panel panel-primary col-sm-4">
-  
+
     <div class="panel-heading">Додати місто</div>
     <div class="panel-body">
     <form role="form" enctype="multipart/form-data" class="form-signin" action="./cityadd" method="post">
@@ -24,9 +24,9 @@
     <p><input type="text" id = "rayon" class="form-control" placeholder="Район" name = "rayon" aria-label="rayon" aria-describedby="basic-addon1"></p>
     <p><input id = "oblast" type="text" class="form-control" placeholder="Область" name = "oblast" aria-label="oblast" aria-describedby="basic-addon1"></p>
     <p> <button type="submit" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ok"></span>Ok</button> </p>
-
+    </form>
    </div>
-  </div>	
+  </div>
 
   <div class="panel panel-primary col-sm-8" >
     <div class="panel-heading">Населені пункти</div>
@@ -41,22 +41,22 @@
       <th scope="col">функ.</th>
     </tr>
      <tr>
- 
+
     </tr>
   </thead>
   <tbody id = "tbody">
-   
+
   </tbody>
 </table>
     </div>
   </div>
   </div>
   <!-- TABLE WITH CitiesS -->
-  
- 
+
+
   <script>
   function editFunction(obj){
-  	
+
   	console.log("ID IS "+obj);
   	var city = getCitById(obj);
   	 // document.getElementById("id").innerHTML = field.city_id;
@@ -71,137 +71,141 @@
 		        method: 'GET',
           statusCode: {
               200: function(response) {
-					 
-                 
+
+
                   alert(JSON.stringify(response));
               },
               500: function() {
-                  
+
                   alert("ОШИБКА!");
               }
           }
       });
 	}
-  
+
 $(document).ready(function(){
-	
+
         $.getJSON("./getAllCities", function(result){
             $.each(result, function(i, field){
                 //$("divb").append(JSON.stringify(field) + " ");
                 console.log(JSON.stringify(field));
                               const agentTopObj = field;
-                              console.log(field.rayoun + "  "+field.oblast);
+                              console.log(field.rayoun + "  "+field.oblast_name);
                               var table = document.getElementById("tbody");
                               var tblTr = document.createElement("tr");
-                              
+
                               var tblTh = document.createElement("th");
-                              tblTh.innerHTML = field.city_id;
+                              tblTh.innerHTML = field.id;
                               var tblTd = document.createElement("td");
-                              tblTd.innerHTML = field.city_name+" name"; 
+                              tblTd.innerHTML = field.city_name;
                               var tblTd1 = document.createElement("td");
-                             
-                              tblTd1.innerHTML = field.rayoun;
+
+                              tblTd1.innerHTML = field.rayon_name;
                               var tblTd2 = document.createElement("td");
-                              tblTd2.innerHTML = field.oblast+" obl";
-                             
+                              tblTd2.innerHTML = field.oblast_name;
+
                               var tblTd3 = document.createElement("td");
-                             
-                              tblTd3.innerHTML =  '<button type="submit" class="btn btn-info btn-sm" onclick="editFunction('+field.city_id+')">'+
+
+                              tblTd3.innerHTML =  '<button type="submit" class="btn btn-info btn-sm" onclick="editFunction('+field.id+')">'+
                               '<span class="glyphicon glyphicon-pencil"></span></button>'+
-                              '<button type="submit" class="btn btn-danger btn-sm" onclick="delFunction('+field.city_id+')">'+
-                              '<span class="glyphicon glyphicon-remove"></span></button>';                             
+                              '<button type="submit" class="btn btn-danger btn-sm" onclick="delFunction('+field.id+')">'+
+                              '<span class="glyphicon glyphicon-remove"></span></button>';
                               table.appendChild(tblTr);
                               tblTr.appendChild(tblTh);
                               tblTr.appendChild(tblTd);
                               tblTr.appendChild(tblTd1);
                               tblTr.appendChild(tblTd2);
-                              tblTr.appendChild(tblTd3); 
+                              tblTr.appendChild(tblTd3);
         });
-          
-         	 
-           
+
+
+
     });
-       
+
 });
 </script>
 </div>
 
-<div class="well">
-<div class="container-fluid">
-<div class="panel panel-info col-sm-2">
-    <div class="panel-heading">Додати партію</div>
-    <div class="panel-body">
-    <form role="form" enctype="multipart/form-data" class="form-signin" action="./partyadd" method="post">
-    <p><th scope="col"><input id="id" type="hidden" class="form-control" name = "id"  aria-describedby="basic-addon1">
-    <input id="name" type="text" class="form-control" placeholder="Назва" name = "name" aria-label="name" aria-describedby="basic-addon1"></input>
-    </p>
-    <p> <button type="submit" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ok"></span>Ok</button> </p>
+ <div class="well">
+     <div class="container-fluid">
+         <form role="form" enctype="multipart/form-data" class="form-signin" action="./partyadd" method="post">
+         <div class="panel panel-info col-sm-3">
 
-   </div>
-  </div>
-  
-  <div class="panel panel-info col-sm-2">
-  <div class="panel-heading">Партії</div>
-    <div class="panel-body">
-    	 <div class="panel-body pre-scrollable">
-    <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">Назва</th>
-      <th scope="col">функ.</th>
-    </tr>
-     <tr>
- 
-    </tr>
-  </thead>
-  <tbody id = "tparty">
-   
-  </tbody>
-</table>
-    </div>
-    </div>
-  </div>
-</div>
+             <div class="panel-heading">
+
+                 <div class="form-group">
+                     <label for="pt">Парт./Мажор.</label>
+                     <select class="form-control" id = "pt"  name="ptype">
+                         <option value = "p" id = "p" selected = "selected">Партії</option>
+                         <option value = "m" id = "m" >Мажоритарники</option>
+                     </select>
+                 </div>
+
+             </div>
+             <div class="panel-body">
+
+                     <p><th scope="col">
+                     <input id="pid" type="hidden" class="form-control" name = "id"  aria-describedby="basic-addon1">
+                     <input id="namep" type="text" class="form-control" placeholder="Додати" name = "pname" aria-label="namep" aria-describedby="basic-addon1">
+                `   </th></p>
+                     <p> <button type="submit" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ok"></span>Ok</button> </p>
+                     <table class="table table-striped">
+                         <thead>
+                         <tr>
+                             <th scope="col">id</th>
+                             <th scope="col">Назва</th>
+                             <th scope="col">функ.</th>
+                         </tr>
+                         <tr>
+
+                         </tr>
+                         </thead>
+                         <tbody id = "tparty">
+
+                         <script>
 
 
-<div class="container-fluid">
-<div class="panel panel-info col-sm-2">
-    <div class="panel-heading">Додати мажоритарника</div>
-    <div class="panel-body">
-    <form role="form" enctype="multipart/form-data" class="form-signin" action="./partyadd" method="post">
-    <p><th scope="col"><input id="id" type="hidden" class="form-control" name = "id"  aria-describedby="basic-addon1">
-    <input id="name" type="text" class="form-control" placeholder="Назва" name = "name" aria-label="name" aria-describedby="basic-addon1"></input>
-    </p>
-    <p> <button type="submit" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ok"></span>Ok</button> </p>
+                             function getval(obj)
+                             {
 
-   </div>
-  </div>
-  
-  <div class="panel panel-info col-sm-2">
-  <div class="panel-heading">Мажоритарники</div>
-    <div class="panel-body">
-    	 <div class="panel-body pre-scrollable">
-    <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">Назва</th>
-      <th scope="col">функ.</th>
-    </tr>
-     <tr>
- 
-    </tr>
-  </thead>
-  <tbody id = "tparty">
-   
-  </tbody>
-</table>
-    </div>
-    </div>
-  </div>
-</div>
+                             }
 
-</div>
+                             $(document).ready(function(){
+
+                                 $.getJSON("./getallparties", function(result){
+
+                                     $.each(result, function(i, field){
+
+                                         var table = document.getElementById("tparty");
+                                         var tblTr = document.createElement("tr");
+                                         var tblTh = document.createElement("th");
+                                         tblTh.innerHTML = field.id;
+                                         var tblTd = document.createElement("td");
+                                         tblTd.innerHTML = field.name;
+                                         var tblTd1 = document.createElement("td");
+                                         tblTd1.innerHTML = 'edit/delete';
+                                         table.appendChild(tblTr);
+                                         tblTr.appendChild(tblTh);
+                                         tblTr.appendChild(tblTd);
+                                         tblTr.appendChild(tblTd1);
+
+
+                                     });
+
+                                 });
+                             });
+
+
+                         </script>
+
+                         </tbody>
+                     </table>
+
+             </div>
+
+         </div>
+         </form>
+     </div>
+ </div>
 
 </body>
