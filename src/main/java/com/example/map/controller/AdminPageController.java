@@ -35,6 +35,7 @@ public class AdminPageController {
 	public ModelAndView cityAddClick(
 			@RequestParam(value = "name") String name,
             @RequestParam(value = "rayon") String rayon,
+			@RequestParam(value = "otg") String otg,
             @RequestParam(value = "oblast") String oblast //, required = false
             ) 
 	{
@@ -42,7 +43,7 @@ public class AdminPageController {
 		System.out.println(name + rayon+oblast);
 
 
-		City city =  new City(name, rayon, oblast);
+		City city =  new City(name, rayon, oblast, otg);
 		System.out.println(" name "+city.getCity_name() +" obl "+ city.getOblast() + " rayon "+city.getRayoun());
 		cityDao.saveAndFlush(city);
 		return model;
@@ -73,6 +74,8 @@ public class AdminPageController {
 	public ModelAndView placeadd(
 			@RequestParam(value = "city") String city_name,
 			@RequestParam(value = "ptype") String type,
+			@RequestParam(value = "num") String num,
+			@RequestParam(value = "name") String name,
 			@RequestParam(value = "lat") Float lat,//, required = false
 			@RequestParam(value = "lng") Float lng//, required = false
 	)
@@ -83,12 +86,16 @@ public class AdminPageController {
 		City c = cityDao.findBycity_name(city_name).get(0);
 
 		p.setCity(c);
-		p.setName(type);
+		p.setType(type);
 		p.setLat(lat);
 		p.setLng(lng);
+		p.setName(name);
+		p.setNum(num);
 		placeDao.saveAndFlush(p);
 		return model;
 	}
+
+
 
 
 

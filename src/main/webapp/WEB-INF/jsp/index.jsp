@@ -66,6 +66,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#" onClick='document.getElementById("ifr").src="admin";'>Ключова інформація</a></li>
         <li><a href="#" onClick='document.getElementById("ifr").src="addplace";'>Місця</a></li>
+        <li><a href="#" onClick='document.getElementById("ifr").src="ellecttab";'>Вибори</a></li>
         <li><a href="#">Projects</a></li>
         <li></li>
       </ul>

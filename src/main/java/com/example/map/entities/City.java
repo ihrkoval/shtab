@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class City {
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +16,9 @@ public class City {
 	String city_name;
 	String oblast_name;
 	String rayon_name;
+	String otg;
+
+
 	int rayon;
 	int oblast;
 
@@ -28,16 +32,22 @@ public class City {
 		this.oblast = oblast;
 	}
 
-	public City (String name, String rayon, String oblast){
+	public City (String name, String rayon, String oblast, String otg){
 		city_name = name;
 		rayon_name = rayon;
 		oblast_name = oblast;
+		this.otg =otg;
 	}
 	public City(){}
 
-	public Long getId() {
-		return id;
+	public String getOtg() {
+		return otg;
 	}
+
+	public void setOtg(String otg) {
+		this.otg = otg;
+	}
+
 
 	public void setId(Long id) {
 		this.id = id;

@@ -26,4 +26,11 @@ public class MainController {
         ModelAndView model = new ModelAndView("test");
         return model;
     }
+
+    @RequestMapping("/ellecttab")
+    public ModelAndView ellecttab() {
+        ModelAndView model = new ModelAndView("ellecttab");
+        return model;
+    }
+
 }

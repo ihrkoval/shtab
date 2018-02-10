@@ -125,13 +125,14 @@
                             <label for="ptype">Тип</label>
                             <select class="form-control" id="ptype" name="ptype">
                                 <option>ДВК</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                                <option>Школа</option>
+                                <option>ДК</option>
+                                <option>Пошта</option>
                             </select>
                         </div>
 
                         <p><input type="text" id = "num" class="form-control" placeholder="Номер" name = "num" aria-label="num" aria-describedby="basic-addon1"></p>
+                            <p><input type="text" id = "name" class="form-control" placeholder="Назва" name = "name" aria-label="name" aria-describedby="basic-addon1"></p>
                         <p>
                             <input type="text" id = "lat" class="form-control" placeholder="lat" name = "lat" aria-label="lat" aria-describedby="basic-addon1">
                             <input type="text" id = "lng" class="form-control" placeholder="lng" name = "lng" aria-label="lng" aria-describedby="basic-addon1">
@@ -155,7 +156,7 @@
             $.each(result, function(i, field){
                 var cname =  document.createElement("option");
                 cname.setAttribute("value", field.city_name);
-                cname.setAttribute("name", field.id);
+                cname.innerHTML = field.id;
                 document.getElementById("suggestions").appendChild(cname);
 
 

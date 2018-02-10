@@ -11,15 +11,35 @@ public class Place {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	String name;
+	String type;
+	String num;
 	float lng;
 	float lat;
 	@ManyToOne(fetch = FetchType.LAZY)
 	City city;
 
 
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public Long getId() {
 		return id;
 	}
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
