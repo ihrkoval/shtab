@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Date;
+
 @Controller
 public class AdminPageController {
 
@@ -52,6 +54,7 @@ public class AdminPageController {
 	@RequestMapping(value = "/partyadd", method = RequestMethod.POST)
 	public ModelAndView partyAddClick(
 			@RequestParam(value = "pname") String name,
+			@RequestParam(value = "eldate") String eldate,
 			@RequestParam(value = "ptype") String type//, required = false
 	)
 	{
@@ -59,7 +62,7 @@ public class AdminPageController {
 		Partia p = new Partia();
 		p.setName(name);
 		p.setType(type);
-
+		p.setEldate(eldate);
 		partiaDao.saveAndFlush(p);
 		return model;
 	}

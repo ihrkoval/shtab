@@ -4,9 +4,15 @@
 
 <head>
      <meta charset="utf-8">
+    <script type="text/javascript" src="./vendor/moment/moment.js"></script>
+    <script type="text/javascript" src="./vendor/moment/moment.min.js"></script>
+    <script type="text/javascript" src="./vendor/moment/moment-with-locales.min.js"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./vendor/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap-datetimepicker.css" />
 </head>
 
 <body>
@@ -19,7 +25,7 @@
     <div class="panel-body">
     <form role="form" enctype="multipart/form-data" class="form-signin" action="./cityadd" method="post">
     <p><th scope="col"><input id="id" type="hidden" class="form-control" name = "id"  aria-describedby="basic-addon1">
-    <input id="name" type="text" class="form-control" placeholder="Назва" name = "name" aria-label="name" aria-describedby="basic-addon1"></input>
+    <input id="name" type="text" class="form-control" placeholder="Назва" name = "name" aria-label="name" aria-describedby="basic-addon1">
     </p>
     <p><input type="text" id = "rayon" class="form-control" placeholder="Район" name = "rayon" aria-label="rayon" aria-describedby="basic-addon1"></p>
     <p><input id = "oblast" type="text" class="form-control" placeholder="Область" name = "oblast" aria-label="oblast" aria-describedby="basic-addon1"></p>
@@ -157,7 +163,7 @@ $(document).ready(function(){
              <div class="panel-heading">
 
                  <div class="form-group">
-                     <label for="pt">Назва кандидата</label>
+                     <label for="pt">Хто?</label>
                      <select class="form-control" id = "pt"  name="ptype">
                          <option value = "p" id = "p" selected = "selected">Партії</option>
                          <option value = "m" id = "m" >Мажоритарники</option>
@@ -170,8 +176,29 @@ $(document).ready(function(){
 
                      <p><th scope="col">
                      <input id="pid" type="hidden" class="form-control" name = "id"  aria-describedby="basic-addon1">
-                     <input id="namep" type="text" class="form-control" placeholder="Додати" name = "pname" aria-label="namep" aria-describedby="basic-addon1">
-                `   </th></p>
+                     <input id="namep" type="text" class="form-control" placeholder="Назва кандидата" name = "pname" aria-label="namep" aria-describedby="basic-addon1">
+
+
+                         <div class='input-group date' id='datetimepicker10'>
+                             <input type='text' class="form-control" name="eldate"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar">
+                    </span>
+                </span>
+                         </div>
+
+                 <script type="text/javascript">
+                     $(function () {
+                         $('#datetimepicker10').datetimepicker({
+                             viewMode: 'years',
+                             format: 'DD/MM/YYYY',
+                             locale: 'ru'
+
+                         });
+                     });
+                 </script>
+
+                 </th></p>
                      <p> <button type="submit" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ok"></span>Ok</button> </p>
                      <table class="table table-striped">
                          <thead>

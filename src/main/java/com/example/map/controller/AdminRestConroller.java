@@ -51,7 +51,15 @@ public class AdminRestConroller {
 	}
 	@RequestMapping("/getdvkByCName")
 	public List<Place> getdvk(@RequestParam(value = "id") String name) {
-		return placeDao.findByCity(name);
+		return placeDao.findDvkByCity(name);
 	}
+
+	@RequestMapping("/getPartiesElTab")
+	public List<Partia> getdvk(@RequestParam(value = "type") String type,
+			@RequestParam(value = "year") int year) {
+		return partiaDao.findByTypeAndDate(type, year);
+	}
+
+
 
 }
