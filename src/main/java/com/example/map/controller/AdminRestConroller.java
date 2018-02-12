@@ -1,18 +1,18 @@
 package com.example.map.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.map.dao.CityDao;
+import com.example.map.dao.EllectResultDao;
 import com.example.map.dao.PartiaDao;
 import com.example.map.dao.PlaceDao;
 import com.example.map.entities.City;
+import com.example.map.entities.EllectionResult;
 import com.example.map.entities.Partia;
 import com.example.map.entities.Place;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -27,6 +27,9 @@ public class AdminRestConroller {
 
 	@Autowired
 	PlaceDao placeDao;
+
+	@Autowired
+	EllectResultDao ellectResultDao;
 
 	@RequestMapping("/getAllCities")
 	public List<City> mainpage() {
@@ -58,6 +61,12 @@ public class AdminRestConroller {
 	public List<Partia> getdvk(@RequestParam(value = "type") String type,
 			@RequestParam(value = "year") int year) {
 		return partiaDao.findByTypeAndDate(type, year);
+	}
+
+	@RequestMapping(value="seveResults", method=RequestMethod.POST, consumes="application/json", produces="application/json")
+	@ResponseBody
+	public void savePerson(@RequestBody List<EllectionResult> ellectionResult) {
+		ellectResultDao.save(ellectionResult);
 	}
 
 

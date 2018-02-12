@@ -84,14 +84,63 @@
                 <tbody id ="tbody">
                 </tbody>
             </table>
-
+            <button type="button" class="btn btn-default"onclick="saveListRows()"> <span class="glyphicon glyphicon-ok"></span>Зберегти</button></div>
         </div>
     </div>
 </div>
 <script>
 
+    function saveListRows() {
+        var rows = [];
+        var row ={};
+        var year = document.getElementById("year").value;
+        row.electionDate = year;
+        var place =document.getElementById("citnames").value;
+
+        var c = document.getElementById("tbody").childNodes;
+
+        for (var i = 0, len = c.length; i < len; i++) {
+            var tr = c[i].childNodes;
+            for (var j = 4, len = tr.length; j < len; j++) {
+                console.log('tbody is '+tr.length+ ' i is '+i);
+                var dvkid=tr[0].name;
+                row.place = dvkid;
+                var allcount=tr[2].value;
+                row.allcount = allcount;
+                var yavka=tr[3].value;
+                row.yavka = yavka;
+                var tablehead = document.getElementById("tableHead").childNodes[i].value;
+                 var td = tr[j].childNodes;
+                var parrtiaid = td[0].name;
+                row.partia = parrtiaid;
+                var votes = td[0].name;
+                row.votes = votes;
+            }
+            rows.push(row);
+        }
+
+
+
+        jQuery.ajax({
+                url: './saveResults',
+                method: 'POST',
+                dataType: 'json',
+                contentType:'application/json',
+                data: rows,
+                statusCode: {
+                    200: function() {
+                        location.href = "/"
+                    }
+                }
+            });
+
+
+    }
+
     var partialist = [];
     function loadTable() {
+        $('#tbody').empty();
+        $('#tableHead').empty();
         var tableHead = document.getElementById("tableHead");
         var th1 = document.createElement("th");
         th1.setAttribute("scope","col");
@@ -126,10 +175,12 @@
 
             $.getJSON("./getdvkByCName?id="+document.getElementById("citnames").value, function(result){
 
+
                 $.each(result, function(i, field){
                     var tr = document.createElement("tr");
                     var td =  document.createElement("td");
                     td.setAttribute("scope","col");
+                    td.setAttribute("name",field.id);
                     td.innerHTML=field.id + ' '+field.name;
                     document.getElementById("tbody").appendChild(tr);
                     tr.appendChild(td);
