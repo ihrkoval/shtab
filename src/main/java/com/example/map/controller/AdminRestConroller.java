@@ -32,9 +32,10 @@ public class AdminRestConroller {
 	EllectResultDao ellectResultDao;
 
 	@RequestMapping("/getAllCities")
-	public List<City> mainpage() {
-		return cityDao.findAll();
+	public List<City> mainpage(@RequestParam(value = "suggest", required = false) String by) {
+					return cityDao.findAll();
 	}
+
 
 	@RequestMapping("/getallparties")
 	public List<Partia> allParties() {
