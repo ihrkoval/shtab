@@ -35,6 +35,7 @@ public class AdminPageController {
 	
 	@RequestMapping(value = "/cityadd", method = RequestMethod.POST)
 	public ModelAndView cityAddClick(
+			@RequestParam(value = "id", required = false) Long id,
 			@RequestParam(value = "name") String name,
             @RequestParam(value = "rayon") String rayon,
 			@RequestParam(value = "otg") String otg,
@@ -46,6 +47,7 @@ public class AdminPageController {
 
 
 		City city =  new City(name, rayon, oblast, otg);
+		city.setId(id);
 		System.out.println(" name "+city.getCity_name() +" obl "+ city.getOblast() + " rayon "+city.getRayoun());
 		cityDao.saveAndFlush(city);
 		return model;
@@ -73,9 +75,11 @@ public class AdminPageController {
 		return model;
 	}
 
+	//TODO creaate a rest controller for place add
 	@RequestMapping(value = "/placeadd", method = RequestMethod.POST)
 	public ModelAndView placeadd(
 			@RequestParam(value = "city") String city_name,
+			@RequestParam(value = "id", required = false) Long id,
 			@RequestParam(value = "ptype") String type,
 			@RequestParam(value = "num") String num,
 			@RequestParam(value = "name") String name,
@@ -88,6 +92,7 @@ public class AdminPageController {
 		System.out.println(" name param = "+city_name);
 		City c = cityDao.findBycity_name(city_name).get(0);
 
+		p.setId(id);
 		p.setCity(c);
 		p.setType(type);
 		p.setLat(lat);

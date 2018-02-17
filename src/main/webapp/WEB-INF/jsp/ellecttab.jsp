@@ -92,50 +92,62 @@
 
     function saveListRows() {
         var rows = [];
-        var row ={};
+
+
         var year = document.getElementById("year").value;
-        row.electionDate = year;
+
         var place =document.getElementById("citnames").value;
 
         var c = document.getElementById("tbody").childNodes;
 
-        for (var i = 0, len = c.length; i < len; i++) {
-            var tr = c[i].childNodes;
-            for (var j = 4, len = tr.length; j < len; j++) {
-                console.log('tbody is '+tr.length+ ' i is '+i);
-                var dvkid=tr[0].name;
-                row.place = dvkid;
-                var allcount=tr[2].value;
+        for (var i = 0; i < c.length ; i++) {
+            console.log(i+" IIIIIIIIIIIIII" + " LENGTH " + c.length);
+            var tr = c[i];
+            var dvkid = tr.childNodes[0].attributes["name"].value;
+            var allcount = tr.childNodes[2].childNodes[0].value;
+            var yavka = tr.childNodes[3].childNodes[0].value;
+            console.log(tr.childNodes[0] + " " + yavka + " tr length is"+tr.childNodes.length);
+            for (var j = 4, len = tr.childNodes.length; j < len; j++) {
+                var row = {};
+                var party = parseInt(document.getElementById("tableHead").childNodes[j].attributes["name"].value);
+                var votes = tr.childNodes[j].childNodes[0].value;
+                console.log("startiing create row");
+                row.electionDate = year+'-01-02';
+                //TODO create JSON ibjects for partia, dvk etc and puch it to///
+                var dvk = {};
+                dvk.id = dvkid
+                row.place = dvk;
                 row.allcount = allcount;
-                var yavka=tr[3].value;
                 row.yavka = yavka;
-                var tablehead = document.getElementById("tableHead").childNodes[i].value;
-                 var td = tr[j].childNodes;
-                var parrtiaid = td[0].name;
-                row.partia = parrtiaid;
-                var votes = td[0].name;
+                var partia = {};
+                partia.id= party;
+                row.partia = partia;
                 row.votes = votes;
+                row.id=parseInt(tr.attributes["id"].value.substr(1));
+                rows.push(row);
+
+                console.log(rows);
+
+
             }
-            rows.push(row);
+
+        }
+        console.log("rows in post "+rows);
+        jQuery.ajax({
+            url: './saveResults',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(rows),
+            statusCode: {
+                200: function () {
+                    alert('ok');
+                }
+            }
+
+        });
         }
 
 
-
-        jQuery.ajax({
-                url: './saveResults',
-                method: 'POST',
-                dataType: 'json',
-                contentType:'application/json',
-                data: rows,
-                statusCode: {
-                    200: function() {
-                        location.href = "/"
-                    }
-                }
-            });
-
-
-    }
 
     var partialist = [];
     function loadTable() {
@@ -167,6 +179,7 @@
             $.each(result, function(i, field){
                 var th =  document.createElement("th");
                 th.setAttribute("scope","col");
+                th.setAttribute("name",field.id);
                 th.innerHTML=field.name;
                 tableHead.appendChild(th);
 
@@ -178,6 +191,7 @@
 
                 $.each(result, function(i, field){
                     var tr = document.createElement("tr");
+                    tr.setAttribute("id","pl"+field.id);
                     var td =  document.createElement("td");
                     td.setAttribute("scope","col");
                     td.setAttribute("name",field.id);
@@ -185,8 +199,13 @@
                     document.getElementById("tbody").appendChild(tr);
                     tr.appendChild(td);
 
-                    for (var i = 0, len = partialist.length+3; i < len; i++) {
+                    for (var ii = 0, len = partialist.length+3; ii < len; ii++) {
                         var td2 = document.createElement("td");
+                        if(ii>2){
+                            console.log(partialist.length +" iiii "+i);
+                            td2.setAttribute("id","pid"+field.id+""+partialist[ii-3].id);
+                        }
+
                         var tdinput =  document.createElement("input");
                         tdinput.className="form-control";
                         td2.appendChild(tdinput);
@@ -206,8 +225,22 @@
 
                 });
 
+                $.getJSON("./getResult?city_name="+document.getElementById("citnames").value+"&year="+document.getElementById("year").value , function(result){
+
+                    $.each(result, function(i, field) {
+                        var tr = document.getElementById("pl"+field.place.id);
+                        console.log(field.place.id + " PL ID "+field.id );
+                        tr.setAttribute("name", field.id);
+                        tr.childNodes[2].childNodes[0].value = field.allcount;
+                        tr.childNodes[3].childNodes[0].value = field.yavka;
+                        var tdinput =  document.getElementById("pid"+field.place.id+""+field.partia.id);
+                        tdinput.childNodes[0].value = field.votes;
+                    });
+                });
+
             });
         });
+
 
 
 

@@ -63,11 +63,27 @@ public class AdminRestConroller {
 		return partiaDao.findByTypeAndDate(type, year);
 	}
 
-	@RequestMapping(value="seveResults", method=RequestMethod.POST, consumes="application/json", produces="application/json")
+	@RequestMapping(value="/saveResults", method=RequestMethod.POST)
 	@ResponseBody
 	public void savePerson(@RequestBody List<EllectionResult> ellectionResult) {
 		ellectResultDao.save(ellectionResult);
 	}
+
+	@RequestMapping(value="/getResult")
+	@ResponseBody
+	public  List<EllectionResult> getResult(@RequestParam String city_name, int year) {
+		return ellectResultDao.findBycityAndYear(city_name, year);
+	}
+
+	@RequestMapping(value="/getResulttype")
+	@ResponseBody
+	public  List<EllectionResult> getResulttype(@RequestParam String city_name, int year, String type) {
+		List<EllectionResult> elres = ellectResultDao.findBycityAndYearAndType(city_name, year, type);
+
+		return ellectResultDao.findBycityAndYearAndType(city_name, year, type);
+	}
+
+
 
 
 

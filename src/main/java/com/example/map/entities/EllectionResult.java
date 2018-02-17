@@ -1,10 +1,13 @@
 package com.example.map.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Date;
 
 import javax.persistence.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EllectionResult {
 		
 	 	@Id
@@ -21,6 +24,8 @@ public class EllectionResult {
 		int votes;
 		int yavka;
 		int allcount;
+
+	public EllectionResult(){}
 
 	public int getAllcount() {
 		return allcount;

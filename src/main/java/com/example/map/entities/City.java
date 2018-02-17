@@ -76,6 +76,9 @@ public class City {
 	}
 
 
+	public Long getId() {
+		return id;
+	}
 
 	public String getOblast_name() {
 		return oblast_name;

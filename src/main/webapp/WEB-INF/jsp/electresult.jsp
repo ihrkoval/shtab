@@ -34,7 +34,7 @@
     						var labelIndex = 0;
       						var map;
       						
-      						var maj = { "heading":"смт Любимівка. 650341","izber":2317, "yavka":817, 
+      						/*var maj = { "heading":"смт Любимівка. 650341","izber":2317, "yavka":817,
 							  		    "results":[ {"name":"Хлань","result":337},
 							  		    			{"name":"Мельничук","result":64},
 							  		                {"name":"Збаровский","result":41}
@@ -47,7 +47,7 @@
 							  		                {"name":"ОБ","result":10}
 							  		              ]
 							  		                };
-
+*/
 						  	
 						  	
      						 function initMap() {
@@ -56,21 +56,24 @@
           							zoom: 10
         							});
     							 	
-    							 	  google.maps.event.addListener(map, 'click', function(event) {
+    							 	/*  google.maps.event.addListener(map, 'click', function(event) {
     							 		    addMarker(event.latLng, map);
-    							 		  });
+    							 		  });*/
       							}
      						 
      						
      						
      						function showFunction(obj) {
-     								var table = document.getElementById("tableDiv");
-     								tableDiv.removeChild(tableDiv.firstChild);
+     								var table = document.getElementById("tableDiv"+obj.id);
+								console.log(obj.id)
+								if(table.firstChild != null) {
+									table.removeChild(table.firstChild);
+								}
      								
 					  		    	var tableTag = document.createElement("table");
 					  		    	tableTag.className = "table";
 					  		    	var tableBody =  document.createElement("tbody");
-					  		    	tableBody.setAttribute("id", "resTable");
+					  		    	tableBody.setAttribute("id", "resTable"+obj.id);
 					  		    	table.appendChild(tableTag);
 					  		    	tableTag.appendChild(tableBody);
      								
@@ -78,9 +81,9 @@
          								
          								}*/
      								
-	     							document.getElementById("javk").innerHTML = obj.izber+'/'+obj.yavka;
-	     							document.getElementById("firstHeading").innerHTML =obj.heading;
-	     							 var results = obj.results;            
+	     							document.getElementById("javk"+obj.id).innerHTML = obj.allcount+'/'+obj.yavka;
+	     							document.getElementById("firstHeading"+obj.id).innerHTML =obj.title;
+	     							 var results = obj.parties;
 							  		    for (x in results) {
 							  		    
 							  		    	
@@ -88,22 +91,26 @@
 							  		        var tRow = document.createElement("tr");
 							  		    	var nameTd = document.createElement("td");
 							  		    	var countTd = document.createElement("td");
-							 
+							  		    	var prcntTd = document.createElement("td");
+
 							  		        tableBody.appendChild(tRow);
 							  		    	tRow.appendChild(nameTd);
 							  		    	tRow.appendChild(countTd);
+							  		    	tRow.appendChild(prcntTd);
+											var prcnt =results[x].votes/(obj.yavka / 100);
 							  		    	nameTd.innerHTML = results[x].name;
-							  		    	countTd.innerHTML = results[x].result;
+							  		    	countTd.innerHTML = results[x].votes;
+											prcntTd.innerHTML = parseFloat(prcnt).toFixed(2)+'%';
 							  		    }
 	     					      }	   
 							  
      						
      					      
-     						 
-     						function addMarker(location, map) {
+
+     						/*function addMarker(location, map) {
      							  // Add the marker at the clicked location, and add the next-available label
      							  // from the array of alphabetical characters.
-     				 var contentString = '<div id="content">'+			  	
+     				 var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
       '<h6 id="firstHeading" class="firstHeading"></h6>'+
@@ -115,27 +122,138 @@
       '</div>'+
       '</div>'+
       '</div>';
-     
+
 
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 
-     							  
+
      							  var marker = new google.maps.Marker({
      							    position: location,
      							    label: labels[labelIndex++ % labels.length],
      							    map: map
      							  });
-     							  
+
      							 marker.addListener('click', function() {
-     								
+
      							    infowindow.open(map, marker);
      							   showFunction(maj);
-     							   
+
      							  });
-     							 
-     							}
+
+     							}*/
+///////////////////////////////////////////////////////////////////////////////
+							var markers = [];
+							function renderResults(){
+								markers.forEach(function(marker) {
+									marker.setMap(null);
+								});
+								markers = [];
+								var ptype = $(pt).children(":selected").attr("id");
+								var citid = document.getElementById("citnames").value;
+								var year = document.getElementById("year").value;
+
+
+								$.getJSON("./getResulttype?city_name="+citid+"&type="+ptype+"&year="+year, function(result){
+
+									var rows = [];
+									$.each(result, function(i, field){
+										var partia = field.partia;
+
+										var place = field.place;
+										var allcount = field.allcount;
+										var yavka = field.yavka;
+
+										if (rows.length === 0){
+											var marker = {};
+											marker.allcount = allcount;
+											marker.yavka = yavka;
+											marker.id = place.id;
+											marker.title = place.num+' '+place.name;
+											marker.lat = place.lat;
+											marker.lng = place.lng;
+											var parties = [];
+											var mpartia = {};
+											mpartia.name = partia.name;
+											mpartia.votes = field.votes;
+											parties.push(mpartia);
+											marker.parties = parties;
+											rows.push(marker);
+										} else {
+											var marker = {};
+											var ind = 0;
+											$.each(rows, function(i, rmarker){
+												if (rmarker.id === place.id){
+													var mpartia = {};
+													mpartia.name = partia.name;
+													mpartia.votes = field.votes;
+													rmarker.parties.push(mpartia);
+													ind =1;
+												}
+
+
+											});
+											if(ind != 1) {
+												var marker = {};
+												marker.allcount = allcount;
+												marker.yavka = yavka;
+												marker.id = place.id;
+												marker.title = place.num + ' ' + place.name;
+												marker.lat = place.lat;
+												marker.lng = place.lng;
+												var parties = [];
+												var mpartia = {};
+												mpartia.name = partia.name;
+												mpartia.votes = field.votes;
+												parties.push(mpartia);
+												marker.parties = parties;
+												rows.push(marker);
+												ind = 0;
+											}
+										}
+
+									});
+
+
+									rows.forEach(function(row) {
+										var myLatlng = new google.maps.LatLng(row.lat, row.lng);
+										var marker = new google.maps.Marker({
+											position: myLatlng,
+											map: map
+										});
+
+										var contentString = '<div id="content'+row.id+'">'+
+												'<div id="siteNotice'+row.id+'">'+
+												'</div>'+
+												'<h6 id="firstHeading'+row.id+'" class="firstHeading"></h6>'+
+												'<div id="bodyContent'+row.id+'">'+
+												'<p id="javk'+row.id+'"></p><p></p>' +
+												'<div id="tableDiv'+row.id+'">'+
+												'</div>'+
+												'</div>'+
+												'</div>';
+										console.log(contentString);
+										var infowindow = new google.maps.InfoWindow({
+											content: contentString
+										});
+
+
+										marker.addListener('click', function() {
+
+											infowindow.open(map, marker);
+											showFunction(row);
+
+										});
+
+										markers.push(marker);
+
+									});
+
+// To add the marker to the map, call setMap();
+
+								});
+							}
      						 
    									 </script>
      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2JeHQGYQyjgy_jO89fH4iJpa3GJYoedM&callback=initMap"
@@ -163,11 +281,24 @@
 			 <div class="panel-heading">По нас. пункту:</div>
 			 <div class="panel-body">
 
-				 <form role="form" enctype="multipart/form-data" class="form-signin" action="./getResultsByCity" method="post">
-					 <p><input id = "nasp" type="text" class="form-control" placeholder="Нас.Пункт" name = "nasp" aria-label="nasp" aria-describedby="basic-addon1">
+
+					 <p>
+						 <input id="citnames" class="form-control" list="suggestions"  placeholder="Нас. пункт" name="city">
+						 <datalist id="suggestions">
+						 </datalist>
+
+					 </p>
+					 <p><input id = "year" type="text" class="form-control" placeholder="Рік" name = "date" aria-label="date" aria-describedby="basic-addon1">
+					 </p>
+					 <p>
+						 <select class="form-control" id = "pt"  name="ptype">
+							 <option value = "p" id = "p" selected = "selected">Партії</option>
+							 <option value = "m" id = "m" >Мажоритарники</option>
+							 <option value = "pr" id = "pr" >Президент</option>
+						 </select>
+
 					 </p>
 
-				 </form>
 
 
 				 <table class="table table-striped">
@@ -199,10 +330,34 @@
 
 
 			 </div>
+
 		 </div>
+		 <button type="button" class="btn btn-success" onclick="renderResults()">Показати</button>
 	 </div>
  </div>
 </div>
  </div>
         </body>
+<script>
+
+
+
+	var cities = {};
+	$(document).ready(function(){
+
+		$.getJSON("./getAllCities", function(result){
+			cities = result;
+			$.each(result, function(i, field){
+				var cname =  document.createElement("option");
+				cname.setAttribute("value", field.city_name);
+				cname.setAttribute("name", field.id);
+				cname.innerHTML = field.id;
+				document.getElementById("suggestions").appendChild(cname);
+
+
+			});
+
+		});
+	});
+</script>
 </html>

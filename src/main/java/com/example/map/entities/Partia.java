@@ -3,12 +3,15 @@ package com.example.map.entities;
 
 //import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Partia {
 	
 	
@@ -28,7 +31,7 @@ public class Partia {
 	}
 
 	public void setEldate(String eldate){
-		SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy");
 		try {
 			this.eldate =  new Date(format.parse(eldate).getTime());
 		} catch (ParseException e) {
