@@ -78,10 +78,23 @@ public class AdminRestConroller {
 
 	@RequestMapping(value="/getResulttype")
 	@ResponseBody
-	public  List<EllectionResult> getResulttype(@RequestParam String city_name, int year, String type) {
-		List<EllectionResult> elres = ellectResultDao.findBycityAndYearAndType(city_name, year, type);
+	public  List<EllectionResult> getResulttype(@RequestParam String city_name, int year, String type, String po) {
+		List<EllectionResult> elres = new ArrayList<>();
+		if (po.equals("poc")) {
+			elres = ellectResultDao.findBycityAndYearAndType(city_name, year, type);
+			System.out.println(elres.size() + " "+po);
+		} else
+		if (po.equals("por")){
+			elres =ellectResultDao.findByRayonAndYearAndType(city_name, year, type);
+			System.out.println(elres.size() + " "+po);
+		} else
 
-		return ellectResultDao.findBycityAndYearAndType(city_name, year, type);
+		if (po.equals("poo")) {
+			elres = ellectResultDao.findByOtgAndYearAndType(city_name, year, type);
+			System.out.println(elres.size() + " "+po);
+		}
+		System.out.println(elres.size() + " "+po);
+		return elres;
 	}
 
 

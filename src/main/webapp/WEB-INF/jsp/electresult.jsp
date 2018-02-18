@@ -102,6 +102,42 @@
 				}
 			}
 
+			function renderGlobals(gparts){
+				var table = document.getElementById("globalTab");
+
+				if(table.firstChild != null) {
+					table.removeChild(table.firstChild);
+				}
+
+				var tableTag = document.createElement("table");
+				tableTag.className = "table table-striped";
+				table.appendChild(tableTag);
+				var head = document.createElement("thead");
+				head.innerHTML = gparts.allcount+'/'+gparts.yavka;
+				tableTag.appendChild(head);
+				var tbody = document.createElement("tbody");
+				tableTag.appendChild(tbody);
+				console.log(gparts.parties);
+
+				var results = gparts.parties;
+				for (x in results) {
+					var tRowg = document.createElement("tr");
+					var nameTdg = document.createElement("th");
+					nameTdg.setAttribute("scope","row")
+					var countTdg = document.createElement("td");
+					var prcntTdg = document.createElement("td");
+					tbody.appendChild(tRowg);
+					tRowg.appendChild(nameTdg);
+					tRowg.appendChild(countTdg);
+					tRowg.appendChild(prcntTdg);
+					var prcnt =results[x].votes/(gparts.yavka / 100);
+					nameTdg.innerHTML = results[x].name;
+					countTdg.innerHTML = results[x].votes;
+					prcntTdg.innerHTML = parseFloat(prcnt).toFixed(2)+'%';
+				}
+			}
+
+
 
 
 			/*function addMarker(location, map) {
@@ -142,17 +178,28 @@
 				var ptype = $(pt).children(":selected").attr("id");
 				var citid = document.getElementById("citnames").value;
 				var year = document.getElementById("year").value;
-				$.getJSON("./getResulttype?city_name="+citid+"&type="+ptype+"&year="+year, function(result){
+				var pot = $(po).children(":selected").attr("id");
+
+
+				$.getJSON("./getResulttype?city_name="+citid+"&type="+ptype+"&year="+year+"&po="+pot, function(result){
 					var rows = [];
+					var globalCount = 0;
+					var globalYavka = 0;
+					var globalParties = [];
+
 					$.each(result, function(i, field){
 						var partia = field.partia;
 						var place = field.place;
 						var allcount = field.allcount;
 						var yavka = field.yavka;
+
+
 						if (rows.length === 0){
 							var marker = {};
 							marker.allcount = allcount;
+							globalCount = globalCount + allcount;
 							marker.yavka = yavka;
+							globalYavka = globalYavka + yavka;
 							marker.id = place.id;
 							marker.title = place.num+' '+place.name;
 							marker.lat = place.lat;
@@ -179,7 +226,9 @@
 							if(ind != 1) {
 								var marker = {};
 								marker.allcount = allcount;
+								globalCount = globalCount + allcount;
 								marker.yavka = yavka;
+								globalYavka = globalYavka + yavka;
 								marker.id = place.id;
 								marker.title = place.num + ' ' + place.name;
 								marker.lat = place.lat;
@@ -197,6 +246,21 @@
 					});
 					rows.forEach(function(row) {
 						var myLatlng = new google.maps.LatLng(row.lat, row.lng);
+
+						if (globalParties.length === 0){
+							globalParties = JSON.parse(JSON.stringify(row.parties));
+							console.log('gp is 0')
+						} else {
+							for (var i = 0; i < globalParties.length; i++){
+								for (var j = 0; j < row.parties.length; j++){
+									if (globalParties[i].name === row.parties[j].name){
+										globalParties[i].votes = globalParties[i].votes + row.parties[j].votes;
+									}
+								}
+							}
+
+						}
+
 						var marker = new google.maps.Marker({
 							position: myLatlng,
 							map: map
@@ -220,9 +284,17 @@
 							showFunction(row);
 						});
 						markers.push(marker);
+
 					});
-// To add the marker to the map, call setMap();
+
+					var globals = {};
+					globals.yavka = globalYavka;
+					globals.allcount = globalCount;
+					globals.parties = globalParties;
+					console.log(globalParties);
+					renderGlobals(globals);
 				});
+
 			}
 
 		</script>
@@ -245,7 +317,7 @@
 				</div>
 			</div>
 
-			<div class="well">
+
 
 				<div class="panel panel-info">
 					<div class="panel-heading">По: <select class="form-control" id = "po"  name="po" onchange="suggest()">
@@ -274,40 +346,15 @@
 						</p>
 
 
+						<div id = "globalTab" class = "small col-sm-1">
 
-						<table class="table table-striped">
-							1250 / 480
-							<thead>
-
-							</thead>
-							<tbody>
-							<tr>
-								<th scope="row">Хлань</th>
-								<td>56</td>
-								<td>12%</td>
-
-							</tr>
-							<tr>
-								<th scope="row">Пузань</th>
-								<td>32</td>
-								<td>9%</td>
-
-							</tr>
-							<tr>
-								<th scope="row">Хабарь</th>
-								<td>60</td>
-								<td>8%</td>
-
-							</tr>
-							</tbody>
-						</table>
-
+						</div>
 
 					</div>
 
 				</div>
 				<button type="button" class="btn btn-success" onclick="renderResults()">Показати</button>
-			</div>
+
 		</div>
 	</div>
 </div>

@@ -225,7 +225,7 @@
 
                 });
 
-                $.getJSON("./getResult?city_name="+document.getElementById("citnames").value+"&year="+document.getElementById("year").value , function(result){
+                $.getJSON("./getResulttype?city_name="+document.getElementById("citnames").value+"&year="+document.getElementById("year").value +"&type="+$(partia).children(":selected").attr("name")+"&po=poc", function(result){
 
                     $.each(result, function(i, field) {
                         var tr = document.getElementById("pl"+field.place.id);
