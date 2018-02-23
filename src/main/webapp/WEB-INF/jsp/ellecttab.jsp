@@ -113,7 +113,7 @@
                 var votes = tr.childNodes[j].childNodes[0].value;
                 console.log("startiing create row");
                 row.electionDate = year+'-01-02';
-                //TODO create JSON ibjects for partia, dvk etc and puch it to///
+
                 var dvk = {};
                 dvk.id = dvkid
                 row.place = dvk;

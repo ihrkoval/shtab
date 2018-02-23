@@ -85,7 +85,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                  
-                    <a href="#"  onClick='document.getElementById("ifr").src="./electresult"; document.getElementById("ifr").src="./electresult";'>Результати виборів</a>
+                    <a href="#"  onClick='document.getElementById("ifr").src="./electresult";'>Результати виборів</a>
                 </li>
                 <li>
                     <a href="#">Агітпродукція</a>

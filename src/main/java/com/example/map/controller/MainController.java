@@ -33,4 +33,10 @@ public class MainController {
         return model;
     }
 
+    @RequestMapping("/ellectrestab")
+    public ModelAndView ellectrestab() {
+        ModelAndView model = new ModelAndView("ellectrestab");
+        return model;
+    }
+
 }

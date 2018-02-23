@@ -261,9 +261,32 @@
 
 						}
 
+						var hlanis = -1;
+						var icon = 'http://maps.google.com/mapfiles/ms/micons/red.png';
+
+						var parties = row.parties;
+
+						parties.sort(function (a, b){
+							return b.votes - a.votes;
+						});
+
+						for (var i = 0; i < parties.length; i++){
+							if (parties[i].name === 'Хлань'){
+								hlanis = i}
+						}
+
+						if (hlanis === 0){
+							icon = 'http://maps.google.com/mapfiles/ms/micons/green.png';
+						} else
+
+						if (hlanis === 1) {
+							icon = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+						}
+
 						var marker = new google.maps.Marker({
 							position: myLatlng,
-							map: map
+							map: map,
+							icon: icon
 						});
 						var contentString = '<div id="content'+row.id+'">'+
 								'<div id="siteNotice'+row.id+'">'+
@@ -311,8 +334,8 @@
 			<div class="well">
 				<div class="panel panel-info">
 					<div class="panel-heading">Режим перегляду</div>
-					<div class="panel-body"><button type="button" class="btn btn-primary">Мапа</button>
-						<button type="button" class="btn btn-success">Таблиця</button>
+					<div class="panel-body"><button type="submit" class="btn btn-primary" onclick="window.location.href='./electresult'">Мапа</button>
+						<button type="submit" class="btn btn-success" onclick="window.location.href='./ellectrestab'">Таблиця</button>
 					</div>
 				</div>
 			</div>

@@ -54,9 +54,21 @@ public class AdminRestConroller {
 		return cityDao.findAll();
 	}
 	@RequestMapping("/getdvkByCName")
-	public List<Place> getdvk(@RequestParam(value = "id") String name) {
+	public List<Place> getdvk(@RequestParam(value = "id") String name,
+							  @RequestParam(value = "t", required = false) String type ) {
+		System.out.println(name + " "+type);
+		if (type != null){
+			if (type.equals("por")){
+				return placeDao.findDvkByRayon(name);
+			}
+			if (type.equals("poo")){
+				return placeDao.findDvkByOtg(name);
+			}
+		}
 		return placeDao.findDvkByCity(name);
 	}
+
+
 
 	@RequestMapping("/getPartiesElTab")
 	public List<Partia> getdvk(@RequestParam(value = "type") String type,
