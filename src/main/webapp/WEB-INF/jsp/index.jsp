@@ -45,8 +45,8 @@
         height: auto;
         padding: 15px;
       }
-      .row.content {height:auto;}  */
-    }
+      .row.content {height:auto;}
+    } */
   </style>
   
 </head>
@@ -91,7 +91,7 @@
                     <a href="#">Агітпродукція</a>
                 </li>
                 <li>
-                    <a href="#">Місця агітпродукції</a>
+                    <a href="#" onClick='document.getElementById("ifr").src="./agitplaces";'>Місця агітпродукції</a>
                 </li>
                 <li>
                     <a href="#">Газета</a>

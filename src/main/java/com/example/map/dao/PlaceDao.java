@@ -22,5 +22,8 @@ public interface PlaceDao extends JpaRepository<Place,Long> {
     @Query(value = "select b.* from place b, city c where b.type = 'ДВК' and c.id = b.city_id and c.otg=?1", nativeQuery = true)
     public List<Place> findDvkByOtg(String name);
 
+    @Query(value = "select b.* from place b where b.agit is not null", nativeQuery = true)
+    public List<Place> getAgitNotNull();
+
 
 }

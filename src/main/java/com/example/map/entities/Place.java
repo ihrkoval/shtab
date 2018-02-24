@@ -13,12 +13,20 @@ public class Place {
 	String name;
 	String type;
 	String num;
+	String agit;
 	float lng;
 	float lat;
 	@ManyToOne(fetch = FetchType.LAZY)
 	City city;
 
 
+	public String getAgit() {
+		return agit;
+	}
+
+	public void setAgit(String agit) {
+		this.agit = agit;
+	}
 
 	public String getType() {
 		return type;

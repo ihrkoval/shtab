@@ -81,8 +81,9 @@ public class AdminPageController {
 			@RequestParam(value = "city") String city_name,
 			@RequestParam(value = "id", required = false) Long id,
 			@RequestParam(value = "ptype") String type,
-			@RequestParam(value = "num") String num,
-			@RequestParam(value = "name") String name,
+			@RequestParam(value = "num", required = false) String num,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "agit", required = false) String agit,
 			@RequestParam(value = "lat") Float lat,//, required = false
 			@RequestParam(value = "lng") Float lng//, required = false
 	)
@@ -99,6 +100,7 @@ public class AdminPageController {
 		p.setLng(lng);
 		p.setName(name);
 		p.setNum(num);
+		p.setAgit(agit);
 		placeDao.saveAndFlush(p);
 		return model;
 	}

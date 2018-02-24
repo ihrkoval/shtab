@@ -36,10 +36,19 @@ public class AdminRestConroller {
 					return cityDao.findAll();
 	}
 
+	@RequestMapping("/getAllPlaces")
+	public List<Place> placesadd() {
+		return placeDao.findAll();
+	}
 
 	@RequestMapping("/getallparties")
 	public List<Partia> allParties() {
 		return partiaDao.findAll();
+	}
+
+	@RequestMapping(value ="/delPlace")
+	public void delPlace(@RequestParam(value = "id") long id) {
+		placeDao.delete(id);
 	}
 
 
@@ -86,6 +95,12 @@ public class AdminRestConroller {
 	@ResponseBody
 	public  List<EllectionResult> getResult(@RequestParam String city_name, int year) {
 		return ellectResultDao.findBycityAndYear(city_name, year);
+	}
+
+	@RequestMapping(value="/getagitplaces")
+	@ResponseBody
+	public  List<Place> getagitplaces() {
+		return placeDao.getAgitNotNull();
 	}
 
 	@RequestMapping(value="/getResulttype")

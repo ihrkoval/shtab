@@ -39,4 +39,10 @@ public class MainController {
         return model;
     }
 
+    @RequestMapping("/agitplaces")
+    public ModelAndView agitplaces() {
+        ModelAndView model = new ModelAndView("agitplaces");
+        return model;
+    }
+
 }
